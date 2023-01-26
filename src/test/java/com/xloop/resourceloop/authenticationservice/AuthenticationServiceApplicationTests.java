@@ -21,6 +21,9 @@ import com.xloop.resourceloop.authenticationservice.Model.User;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
+import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.springframework.http.MediaType;
 
 @AutoConfigureJsonTesters
@@ -108,5 +111,22 @@ class AuthenticationServiceApplicationTests {
 			.contentType(MediaType.APPLICATION_JSON)
 			.content(jsonAuth.write(auth).getJson()))
 			.andExpect(status().isNotFound());
+	}
+
+	@Test
+	public void test(){
+		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
+        SimpleStringPBEConfig config = new SimpleStringPBEConfig();
+        config.setPassword("resourceloop"); // encryptor's private key
+        config.setAlgorithm("PBEWithMD5AndDES");
+        config.setKeyObtentionIterations("1000");
+        config.setPoolSize("1");
+        config.setProviderName("SunJCE");
+        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
+        config.setStringOutputType("base64");
+        encryptor.setConfig(config);
+
+		String plantext = "Zia";
+		System.out.println("Encrypted Key: "+encryptor.encrypt(plantext));
 	}
 }

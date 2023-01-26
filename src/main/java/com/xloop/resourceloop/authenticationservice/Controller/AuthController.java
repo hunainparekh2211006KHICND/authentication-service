@@ -1,5 +1,7 @@
 package com.xloop.resourceloop.authenticationservice.Controller;
 
+import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
+import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,11 +24,24 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody User user){
+        PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
+        SimpleStringPBEConfig config = new SimpleStringPBEConfig();
+        config.setPassword("resourceloop"); // encryptor's private key
+        config.setAlgorithm("PBEWithMD5AndDES");
+        config.setKeyObtentionIterations("1000");
+        config.setPoolSize("1");
+        config.setProviderName("SunJCE");
+        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator");
+        config.setStringOutputType("base64");
+        encryptor.setConfig(config);
+        
         if(user.getFirst_name() != null && user.getEmail() != null && user.getPassword() != null){
             User userExists = userRepo.findByEmail(user.getEmail());
             if(userExists != null){
                 return ResponseEntity.status(409).body("User Already Exist");
             }
+            String encrypt_password = encryptor.encrypt(user.getPassword());
+            user.setPassword(encrypt_password);
             userRepo.save(user);
             return ResponseEntity.ok("User Registered");
         }
