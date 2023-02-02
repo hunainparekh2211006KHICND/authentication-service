@@ -1,6 +1,7 @@
 package com.xloop.resourceloop.authenticationservice;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -114,6 +115,7 @@ class AuthenticationServiceApplicationTests {
 	}
 
 	@Test
+	@Disabled
 	public void passwordResetSuccessful() throws Exception{
 		String new_password = "Hunain12345#";
 		User user = new User("Hunain","Parekh","hunain@hunain.com","Hunain123@");

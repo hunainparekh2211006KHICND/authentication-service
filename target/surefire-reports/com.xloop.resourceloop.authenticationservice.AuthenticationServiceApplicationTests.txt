@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.xloop.resourceloop.authenticationservice.AuthenticationServiceApplicationTests
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.136 s - in com.xloop.resourceloop.authenticationservice.AuthenticationServiceApplicationTests
+Tests run: 7, Failures: 0, Errors: 0, Skipped: 1, Time elapsed: 12.63 s - in com.xloop.resourceloop.authenticationservice.AuthenticationServiceApplicationTests
